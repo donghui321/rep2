@@ -5,6 +5,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.Objects;
+
 @Document(indexName = "spring_blog", type = "t_article")
 public class Article {
     @Id
@@ -46,5 +48,20 @@ public class Article {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id == article.id &&
+                Objects.equals(title, article.title) &&
+                Objects.equals(content, article.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, content);
     }
 }
